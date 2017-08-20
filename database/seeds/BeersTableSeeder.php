@@ -37,6 +37,14 @@ class BeersTableSeeder extends Seeder
         $seedData = seedFromCSV($this->filename, ',');
 
         foreach ($seedData as $t) {
+            if ($t['cat_id'] == '-1') {
+                $t['cat_id'] = null;
+            }
+
+            if ($t['style_id'] == '-1') {
+                $t['style_id'] = null;
+            }
+
             DB::table($this->table)->insert($t);
         }
     }
