@@ -17,7 +17,7 @@ class CreateStylesTable extends Migration {
 			$table->integer('id')->primary();
 			$table->integer('cat_id')->nullable()->index('fk_styles_categories1_idx');
 			$table->string('style_name')->nullable();
-			$table->dateTime('last_mod')->nullable();
+			$table->string('last_mod')->nullable();
 		});
 	}
 

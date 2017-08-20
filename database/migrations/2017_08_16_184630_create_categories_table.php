@@ -16,7 +16,7 @@ class CreateCategoriesTable extends Migration {
 		{
 			$table->integer('id')->primary();
 			$table->string('cat_name')->nullable();
-			$table->dateTime('last_mod')->nullable();
+			$table->string('last_mod')->nullable();
 		});
 	}
 
