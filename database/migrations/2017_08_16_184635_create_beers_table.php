@@ -24,9 +24,9 @@ class CreateBeersTable extends Migration {
 			$table->float('srm', 10, 0)->nullable();
 			$table->float('upc', 10, 0)->nullable();
 			$table->string('filepath')->nullable();
-			$table->string('descript')->nullable();
+			$table->text('descript')->nullable();
 			$table->integer('add_user')->nullable();
-			$table->dateTime('last_mod')->nullable();
+			$table->string('last_mod')->nullable();
 		});
 	}
 
