@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Styles extends Model
+class Category extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'styles';
+    protected $table = 'categories';
 
     /**
      * The attributes that are mass assignable.
@@ -20,8 +20,7 @@ class Styles extends Model
      */
     protected $fillable = [
         'id',
-        'cat_id',
-        'style_name',
+        'cat_name',
         'last_mod',
     ];
 }

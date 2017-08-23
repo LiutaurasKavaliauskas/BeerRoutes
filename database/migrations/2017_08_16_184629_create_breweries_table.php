@@ -31,7 +31,6 @@ class CreateBreweriesTable extends Migration {
 		});
 	}
 
-
 	/**
 	 * Reverse the migrations.
 	 *
@@ -41,5 +40,4 @@ class CreateBreweriesTable extends Migration {
 	{
 		Schema::drop('breweries');
 	}
-
 }

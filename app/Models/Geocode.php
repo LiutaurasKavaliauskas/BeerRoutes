@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Geocodes extends Model
+class Geocode extends Model
 {
     /**
      * The database table used by the model.
@@ -26,13 +26,14 @@ class Geocodes extends Model
         'accuracy',
     ];
 
+
     /**
-     * Return assigned brewery
+     * Return asssigned brewery to geocode
      *
      * @return Model|null|static
      */
     public function getBrewery()
     {
-        return $this->hasOne(Breweries::class, 'id', 'brewery_id')->first();
+        return $this->hasOne(Brewery::class, 'id', 'brewery_id')->first();
     }
 }

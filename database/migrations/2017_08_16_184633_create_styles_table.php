@@ -21,7 +21,6 @@ class CreateStylesTable extends Migration {
 		});
 	}
 
-
 	/**
 	 * Reverse the migrations.
 	 *
@@ -31,5 +30,4 @@ class CreateStylesTable extends Migration {
 	{
 		Schema::drop('styles');
 	}
-
 }
