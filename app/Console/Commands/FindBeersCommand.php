@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Breweries;
 use App\Models\Geocodes;
 use Illuminate\Console\Command;
 
@@ -46,6 +45,7 @@ class FindBeersCommand extends Command
      */
     public function handle()
     {
+        $start = microtime(true);
         $lat = $this->option('lat');
         $long = $this->option('long');
 
@@ -53,7 +53,9 @@ class FindBeersCommand extends Command
             return $this->error('Not enough parameters...');
         }
 
-        return $this->findBreweries($lat, $long);
+        $this->findBreweries($lat, $long);
+        $end = round(microtime(true) - $start, 3);
+        $this->info('Execution time: ' . $end . 's');
     }
 
     /**
