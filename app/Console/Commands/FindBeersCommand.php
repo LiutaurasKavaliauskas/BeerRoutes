@@ -161,7 +161,7 @@ class FindBeersCommand extends Command
 
         $totalDistance += $distanceToHome;
         $this->info('');
-        $this->info('Total distance travelled: ' . $totalDistance . 'km');
+        $this->info('Total distance travelled: ' . (int)$totalDistance . 'km');
         $this->printBeerResults($beers, $totalBeers);
     }
 
@@ -175,6 +175,6 @@ class FindBeersCommand extends Command
             $this->info('->' . $beer->name);
         }
 
-        
+
     }
 }
