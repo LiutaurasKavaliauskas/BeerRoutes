@@ -14,6 +14,7 @@ class HelperServiceProvider extends ServiceProvider
         //
     }
 
+    // TODO Remove when helpers are converted
     /**
      * Register any application services.
      *
