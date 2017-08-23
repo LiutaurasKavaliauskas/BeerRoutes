@@ -12,7 +12,7 @@ if (!function_exists ('getDistanceByHaversine')) {
      * @param int $earthRadius
      * @return double
      */
-    function getDistanceByHaversine($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000)
+    function getDistanceByHaversine($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371)
     {
         $latFrom = deg2rad($latitudeFrom);
         $longFrom = deg2rad($longitudeFrom);
