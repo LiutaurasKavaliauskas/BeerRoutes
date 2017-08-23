@@ -72,7 +72,7 @@ class FindBeersCommand extends Command
         $nearest = $this->fuel / 2;
 
         foreach ($geocodes as $geocode) {
-            if ($geocode->latitude != $lat && $geocode->longitude != $long) {
+            if ($geocode->latitude !== $lat && $geocode->longitude !== $long) {
                 $distance = getDistanceByHaversine($lat, $long, $geocode->latitude, $geocode->longitude);
 
                 if ($distance < $nearest) {
