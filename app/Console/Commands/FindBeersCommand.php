@@ -53,7 +53,7 @@ class FindBeersCommand extends Command
             return $this->error('Not enough parameters...');
         }
 
-        $this->findBreweries($lat, $long);
+        $this->findBreweries($lat, $long, $lat, $long);
         $end = round(microtime(true) - $start, 3);
         $this->info('Execution time: ' . $end . 's');
     }
@@ -85,10 +85,11 @@ class FindBeersCommand extends Command
         return $nearestGeocode;
     }
 
-
     /**
      * Find as much breweries as possible for given coordinates with fuel for 2000 km.
      *
+     * @param $homeLat
+     * @param $homeLong
      * @param $lat
      * @param $long
      * @param int $fuel
@@ -96,11 +97,8 @@ class FindBeersCommand extends Command
      * @param null $geocodes
      * @param array $distances
      */
-    public function findBreweries($lat, $long, $fuel = 2000, $distanceToHome = 1000, $geocodes = null, $distances = [])
+    public function findBreweries($homeLat, $homeLong, $lat, $long, $fuel = 2000, $distanceToHome = 1000, $geocodes = null, $distances = [])
     {
-        $homeLat = $this->option('lat');
-        $homeLong = $this->option('long');
-
         if (!$geocodes) {
             $geocodes = Geocode::all();
         }
@@ -117,15 +115,15 @@ class FindBeersCommand extends Command
         $fuel = $fuel - $nearestBreweryDistance;
 
         if ($fuel <= $distanceToHome) {
-            return $this->printRoutesResults($distances);
-        } else {
-            $distances[] = [
-                'geocode' => $nearestBrewery,
-                'distance' => (int)$nearestBreweryDistance,
-            ];
+            return $this->printRoutesResults($homeLat, $homeLong, $distances);
         }
 
-        return $this->findBreweries($nearestBrewery->latitude, $nearestBrewery->longitude, $fuel, $distanceToHome, $geocodes, $distances);
+        $distances[] = [
+            'geocode' => $nearestBrewery,
+            'distance' => (int)$nearestBreweryDistance,
+        ];
+
+        return $this->findBreweries($homeLat, $homeLong, $nearestBrewery->latitude, $nearestBrewery->longitude, $fuel, $distanceToHome, $geocodes, $distances);
     }
 
     /**
@@ -133,11 +131,8 @@ class FindBeersCommand extends Command
      *
      * @param $results
      */
-    public function printRoutesResults($results)
+    public function printRoutesResults($lat, $long, $results)
     {
-        $lat = $this->option('lat');
-        $long = $this->option('long');
-
         $totalDistance = 0;
         $totalBeers = 0;
         $beers = [];
@@ -153,7 +148,7 @@ class FindBeersCommand extends Command
                 . $brewery->name . ': '
                 . $result['geocode']->latitude . ', '
                 . $result['geocode']->longitude
-                . 'distance ' . $result['distance'] . 'km'
+                . ' distance ' . $result['distance'] . 'km'
             );
 
             $breweryBeers = $brewery->getBeers();
