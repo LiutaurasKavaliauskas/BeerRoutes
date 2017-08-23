@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Breweries extends Model
+class Beers extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'breweries';
+    protected $table = 'beers';
 
     /**
      * The attributes that are mass assignable.
@@ -20,23 +20,17 @@ class Breweries extends Model
      */
     protected $fillable = [
         'id',
+        'brewery_id',
         'name',
-        'address1',
-        'address2',
-        'city',
-        'state',
-        'code',
-        'country',
-        'phone',
-        'website',
+        'cat_id',
+        'style_id',
+        'abv',
+        'ibu',
+        'srm',
+        'upc',
         'filepath',
         'descript',
         'add_user',
         'last_mod',
     ];
-
-    public function getBeers()
-    {
-        return $this->hasMany(Beers::class, 'brewery_id', 'id')->get();
-    }
 }
