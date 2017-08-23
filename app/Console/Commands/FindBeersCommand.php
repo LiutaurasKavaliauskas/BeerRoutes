@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Geocodes;
+use App\Models\Geocode;
 use Illuminate\Console\Command;
 
 class FindBeersCommand extends Command
@@ -64,11 +64,11 @@ class FindBeersCommand extends Command
      * @param $lat
      * @param $long
      * @param null $geocodes
-     * @return Geocodes
+     * @return Geocode
      */
     public function findNearestBrewery($lat, $long, $geocodes = null)
     {
-        $nearestGeocode = new Geocodes();
+        $nearestGeocode = new Geocode();
         $nearest = $this->fuel / 2;
 
         foreach ($geocodes as $geocode) {
@@ -102,7 +102,7 @@ class FindBeersCommand extends Command
         $homeLong = $this->option('long');
 
         if (!$geocodes) {
-            $geocodes = Geocodes::all();
+            $geocodes = Geocode::all();
         }
 
         $geocodes = $geocodes->keyBy('id');

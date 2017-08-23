@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Breweries extends Model
+class Brewery extends Model
 {
     /**
      * The database table used by the model.
@@ -35,8 +35,13 @@ class Breweries extends Model
         'last_mod',
     ];
 
+    /**
+     * Return beers that are assigned to brewery
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getBeers()
     {
-        return $this->hasMany(Beers::class, 'brewery_id', 'id')->get();
+        return $this->hasMany(Beer::class, 'brewery_id', 'id')->get();
     }
 }
