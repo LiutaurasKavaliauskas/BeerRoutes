@@ -13,7 +13,7 @@ services:
     app:
         build:
             context: ./
-            dockerfile: /app.docker
+            dockerfile: docker/app.docker
         volumes:
             - ./:/var/www
         links:
