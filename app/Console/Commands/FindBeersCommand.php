@@ -109,7 +109,8 @@ class FindBeersCommand extends Command
     public function findBreweries($homeLat, $homeLong, $lat, $long, $fuel = 2000, $distanceToHome = 1000, $geocodes = null, $distances = [])
     {
         if (!$geocodes) {
-            $geocodes = Geocode::all();
+            $geocodes = new Geocode();
+            $geocodes = $geocodes->getBreweriesInArea($homeLat, $homeLong, $fuel / 2);
         }
 
         $geocodes = $geocodes->keyBy('id');
