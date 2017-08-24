@@ -88,7 +88,10 @@ class CsvReaderService
                 continue;
             }
 
-            $data[] = array_combine(array_intersect_key($header, $row), array_intersect_key($row, $header));
+            if(count($header) == count($row)) {
+                $data[] = array_combine($header, $row);
+                continue;
+            }
         }
 
         fclose($handle);

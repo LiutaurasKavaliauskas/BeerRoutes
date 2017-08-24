@@ -199,7 +199,7 @@ class FindBeersCommand extends Command
 
         $distanceToHome = $haversineService->calculateDistance();
 
-        $this->info('<- HOME: ' . $lat . ', ' . $long . ' distance ' . $distanceToHome . 'km');
+        $this->info('<- HOME: ' . $lat . ', ' . $long . ' distance ' . (int)$distanceToHome . 'km');
 
         $totalDistance += $distanceToHome;
 

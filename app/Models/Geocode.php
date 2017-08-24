@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\HaversineFormulaService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Geocode extends Model
 {
@@ -39,6 +37,14 @@ class Geocode extends Model
         return $this->hasOne(Brewery::class, 'id', 'brewery_id')->first();
     }
 
+    /**
+     * Find nearest breweries for the point in given radius
+     *
+     * @param $latitude
+     * @param $longitude
+     * @param $radius
+     * @return \Illuminate\Support\Collection
+     */
     public function getBreweriesInArea($latitude, $longitude, $radius)
     {
         return Geocode::select('geocodes.*')
@@ -47,8 +53,7 @@ class Geocode extends Model
         * cos(radians(longitude) - radians(?)
         ) + sin(radians(?)) *
         sin(radians(latitude))))
-                                AS distance", [$latitude, $longitude, $latitude]
-        )
+        AS distance", [$latitude, $longitude, $latitude])
         ->havingRaw("distance < ?", [$radius])
         ->get();
     }
