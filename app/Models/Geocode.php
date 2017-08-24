@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Services\HaversineFormulaService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Geocode extends Model
 {
@@ -35,5 +37,19 @@ class Geocode extends Model
     public function getBrewery()
     {
         return $this->hasOne(Brewery::class, 'id', 'brewery_id')->first();
+    }
+
+    public function getBreweriesInArea($latitude, $longitude, $radius)
+    {
+        return Geocode::select('geocodes.*')
+        ->selectRaw("(6371 * acos(cos(radians(?)) *
+        cos(radians(latitude))
+        * cos(radians(longitude) - radians(?)
+        ) + sin(radians(?)) *
+        sin(radians(latitude))))
+                                AS distance", [$latitude, $longitude, $latitude]
+        )
+        ->havingRaw("distance < ?", [$radius])
+        ->get();
     }
 }
