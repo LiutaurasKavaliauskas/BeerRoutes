@@ -16,10 +16,9 @@ class CreateCategoriesTable extends Migration {
 		{
 			$table->integer('id')->primary();
 			$table->string('cat_name')->nullable();
-			$table->dateTime('last_mod')->nullable();
+			$table->string('last_mod')->nullable();
 		});
 	}
-
 
 	/**
 	 * Reverse the migrations.
@@ -30,5 +29,4 @@ class CreateCategoriesTable extends Migration {
 	{
 		Schema::drop('categories');
 	}
-
 }

@@ -22,7 +22,6 @@ class CreateGeocodesTable extends Migration {
 		});
 	}
 
-
 	/**
 	 * Reverse the migrations.
 	 *
@@ -32,5 +31,4 @@ class CreateGeocodesTable extends Migration {
 	{
 		Schema::drop('geocodes');
 	}
-
 }

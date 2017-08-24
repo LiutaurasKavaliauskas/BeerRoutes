@@ -25,12 +25,11 @@ class CreateBreweriesTable extends Migration {
 			$table->string('phone')->nullable();
 			$table->string('website')->nullable();
 			$table->string('filepath')->nullable();
-			$table->string('descript')->nullable();
+			$table->text('descript')->nullable();
 			$table->integer('add_user')->nullable();
-			$table->dateTime('last_mod')->nullable();
+			$table->string('last_mod')->nullable();
 		});
 	}
-
 
 	/**
 	 * Reverse the migrations.
@@ -41,5 +40,4 @@ class CreateBreweriesTable extends Migration {
 	{
 		Schema::drop('breweries');
 	}
-
 }

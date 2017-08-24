@@ -18,7 +18,6 @@ class AddForeignKeysToStylesTable extends Migration {
 		});
 	}
 
-
 	/**
 	 * Reverse the migrations.
 	 *
@@ -31,5 +30,4 @@ class AddForeignKeysToStylesTable extends Migration {
 			$table->dropForeign('fk_styles_categories1');
 		});
 	}
-
 }
