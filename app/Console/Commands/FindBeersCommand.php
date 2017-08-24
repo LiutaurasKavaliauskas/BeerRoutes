@@ -23,17 +23,19 @@ class FindBeersCommand extends Command
     protected $description = 'Collect as much beers as possible from given location';
 
     /**
-     * Distance that can be flown
+     * Max distance that can be flown
      *
      * @var int
      */
     protected $fuel = 2000;
 
     /**
-     * Create a new command instance.
+     * Locations geocodes
      *
-     * @return void
+     * @var array
      */
+    protected $geocodes = [];
+
     public function __construct()
     {
         parent::__construct();
@@ -62,18 +64,58 @@ class FindBeersCommand extends Command
     }
 
     /**
+     * Return fuel amount
+     *
+     * @return int
+     */
+    public function getFuel()
+    {
+        return $this->fuel;
+    }
+
+    /**
+     * Set fuel amount
+     *
+     * @param $fuel
+     */
+    public function setFuel($fuel)
+    {
+        $this->fuel = $fuel;
+    }
+
+    /**
+     * Return geocodes
+     *
+     * @return array
+     */
+    public function getGeocodes()
+    {
+        return $this->geocodes;
+    }
+
+    /**
+     * Set geocodes
+     *
+     * @param $geocodes
+     */
+    public function setGeocodes($geocodes)
+    {
+        $this->geocodes = $geocodes;
+    }
+
+    /**
      * Return a nearest brewery for given coordinates
      *
      * @param $lat
      * @param $long
-     * @param null $geocodes
      * @return Geocode
      */
-    public function findNearestBrewery($lat, $long, $geocodes = null)
+    public function findNearestBrewery($lat, $long)
     {
+        $geocodes = $this->getGeocodes();
         $nearestGeocode = new Geocode();
         $haversineService = new HaversineFormulaService();
-        $nearest = $this->fuel / 2;
+        $radius = $this->getFuel() / 2;
 
         foreach ($geocodes as $geocode) {
             if ($geocode->latitude !== $lat && $geocode->longitude !== $long) {
@@ -84,8 +126,8 @@ class FindBeersCommand extends Command
 
                 $distance = $haversineService->calculateDistance();
 
-                if ($distance < $nearest) {
-                    $nearest = $distance;
+                if ($distance < $radius) {
+                    $radius = $distance;
                     $nearestGeocode = $geocode;
                 }
             }
@@ -101,21 +143,22 @@ class FindBeersCommand extends Command
      * @param $homeLong
      * @param $lat
      * @param $long
-     * @param int $fuel
      * @param int $distanceToHome
-     * @param null $geocodes
      * @param array $distances
      */
-    public function findBreweries($homeLat, $homeLong, $lat, $long, $fuel = 2000, $distanceToHome = 1000, $geocodes = null, $distances = [])
+    public function findBreweries($homeLat, $homeLong, $lat, $long, $distanceToHome = 1000, $distances = [])
     {
+        $geocodes = $this->getGeocodes();
+
         if (!$geocodes) {
             $geocodes = new Geocode();
-            $geocodes = $geocodes->getBreweriesInArea($homeLat, $homeLong, $fuel / 2);
+            $geocodes = $geocodes->getBreweriesInArea($homeLat, $homeLong, $this->getFuel() / 2);
         }
 
         $geocodes = $geocodes->keyBy('id');
+        $this->setGeocodes($geocodes);
 
-        $nearestBrewery = $this->findNearestBrewery($lat, $long, $geocodes);
+        $nearestBrewery = $this->findNearestBrewery($lat, $long);
 
         $haversineService = new HaversineFormulaService();
 
@@ -135,7 +178,7 @@ class FindBeersCommand extends Command
 
         $geocodes->forget($nearestBrewery->id);
 
-        $fuel = $fuel - $nearestBreweryDistance;
+        $fuel = $this->getFuel() - $nearestBreweryDistance;
 
         if ($fuel <= $distanceToHome) {
             return $this->printRoutesResults($homeLat, $homeLong, $distances);
@@ -146,7 +189,10 @@ class FindBeersCommand extends Command
             'distance' => (int)$nearestBreweryDistance,
         ];
 
-        return $this->findBreweries($homeLat, $homeLong, $nearestBrewery->latitude, $nearestBrewery->longitude, $fuel, $distanceToHome, $geocodes, $distances);
+        $this->setFuel($fuel);
+        $this->setGeocodes($geocodes);
+
+        return $this->findBreweries($homeLat, $homeLong, $nearestBrewery->latitude, $nearestBrewery->longitude, $distanceToHome, $distances);
     }
 
     /**

@@ -58,10 +58,8 @@ class HaversineFormulaService
      */
     public function setLatitudeFrom($latFrom)
     {
-        if (isBetween($latFrom, -90, 90)) {
+        if (latitudeIsValid($latFrom)) {
             $this->latFrom = $latFrom;
-        } else {
-            throw new Exception('Wrong coordinates');
         }
     }
 
@@ -83,10 +81,8 @@ class HaversineFormulaService
      */
     public function setLongitudeFrom($lngFrom)
     {
-        if (isBetween($lngFrom, -180, 180)) {
+        if (longitudeIsValid($lngFrom)) {
             $this->lngFrom = $lngFrom;
-        } else {
-            throw new Exception('Wrong coordinates');
         }
     }
 
@@ -108,10 +104,8 @@ class HaversineFormulaService
      */
     public function setLatitudeTo($latTo)
     {
-        if (isBetween($latTo, -90, 90)) {
+        if (latitudeIsValid($latTo)) {
             $this->latTo = $latTo;
-        } else {
-            throw new Exception('Wrong coordinates');
         }
     }
 
@@ -133,10 +127,8 @@ class HaversineFormulaService
      */
     public function setLongitudeTo($lngTo)
     {
-        if (isBetween($lngTo, -180, 180)) {
+        if (longitudeIsValid($lngTo)) {
             $this->lngTo = $lngTo;
-        } else {
-            throw new Exception('Wrong coordinates');
         }
     }
 
@@ -159,6 +151,6 @@ class HaversineFormulaService
         $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
                 cos($latFrom) * cos($latTo) * pow(sin($longDelta / 2), 2)));
 
-        return $angle * $this::EARTH_RADIUS;
+        return $angle * self::EARTH_RADIUS;
     }
 }

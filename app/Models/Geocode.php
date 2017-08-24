@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class Geocode extends Model
@@ -26,7 +27,6 @@ class Geocode extends Model
         'accuracy',
     ];
 
-
     /**
      * Return asssigned brewery to geocode
      *
@@ -44,10 +44,14 @@ class Geocode extends Model
      * @param $longitude
      * @param $radius
      * @return \Illuminate\Support\Collection
+     * @throws Exception
      */
     public function getBreweriesInArea($latitude, $longitude, $radius)
     {
-        return Geocode::select('geocodes.*')
+        latitudeIsValid($latitude);
+        longitudeIsValid($longitude);
+
+        $geocodes = Geocode::select('geocodes.*')
         ->selectRaw("(6371 * acos(cos(radians(?)) *
         cos(radians(latitude))
         * cos(radians(longitude) - radians(?)
@@ -56,5 +60,11 @@ class Geocode extends Model
         AS distance", [$latitude, $longitude, $latitude])
         ->havingRaw("distance < ?", [$radius])
         ->get();
+
+        if ($geocodes->isEmpty()) {
+            throw new Exception('No breweries in this area.');
+        }
+
+        return $geocodes;
     }
 }

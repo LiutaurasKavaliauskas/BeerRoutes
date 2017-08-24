@@ -80,8 +80,8 @@ class CsvReaderService
 
         $header = null;
         $data = [];
-
         $handle = fopen($filename, 'r');
+
         while (($row = fgetcsv($handle, $deliminator)) !== false) {
             if (!$header) {
                 $header = $row;

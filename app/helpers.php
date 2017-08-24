@@ -18,3 +18,39 @@ if (!function_exists ('isBetween')) {
         return false;
     }
 }
+
+if (!function_exists ('longitudeIsValid')) {
+    /**
+     * Check if longitude is valid
+     *
+     * @param $longitude
+     * @return bool
+     * @throws Exception
+     */
+    function longitudeIsValid($longitude)
+    {
+        if (isBetween($longitude, -180, 180)) {
+            return true;
+        }
+
+        throw new Exception('Wrong coordinates');
+    }
+}
+
+if (!function_exists ('latitudeIsValid')) {
+    /**
+     * Check if latitude is valid
+     *
+     * @param $latitude
+     * @return bool
+     * @throws Exception
+     */
+    function latitudeIsValid($latitude)
+    {
+        if (isBetween($latitude, -90, 90)) {
+            return true;
+        }
+
+        throw new Exception('Wrong coordinates');
+    }
+}
