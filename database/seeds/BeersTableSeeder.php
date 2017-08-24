@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\CsvReaderService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +24,6 @@ class BeersTableSeeder extends Seeder
 
         $this->table = 'beers';
         $this->filename = base_path() . '/database/resources/csv/beers.csv';
-
     }
 
     /**
@@ -34,7 +34,9 @@ class BeersTableSeeder extends Seeder
     public function run()
     {
         DB::table($this->table)->delete();
-        $seedData = seedFromCSV($this->filename, ',');
+
+        $csvReader = new CsvReaderService($this->filename, ',');
+        $seedData = $csvReader->getDataFromCsv();
 
         foreach ($seedData as $t) {
             if ($t['cat_id'] == '-1') {
