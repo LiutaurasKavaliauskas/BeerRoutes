@@ -20,7 +20,6 @@ class CreateCategoriesTable extends Migration {
 		});
 	}
 
-
 	/**
 	 * Reverse the migrations.
 	 *
@@ -30,5 +29,4 @@ class CreateCategoriesTable extends Migration {
 	{
 		Schema::drop('categories');
 	}
-
 }

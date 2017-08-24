@@ -20,7 +20,6 @@ class AddForeignKeysToBeersTable extends Migration {
 		});
 	}
 
-
 	/**
 	 * Reverse the migrations.
 	 *
@@ -35,5 +34,4 @@ class AddForeignKeysToBeersTable extends Migration {
 			$table->dropForeign('fk_beers_styles1');
 		});
 	}
-
 }

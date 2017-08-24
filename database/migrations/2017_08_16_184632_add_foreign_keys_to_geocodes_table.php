@@ -18,7 +18,6 @@ class AddForeignKeysToGeocodesTable extends Migration {
 		});
 	}
 
-
 	/**
 	 * Reverse the migrations.
 	 *
@@ -31,5 +30,4 @@ class AddForeignKeysToGeocodesTable extends Migration {
 			$table->dropForeign('fk_geocodes_breweries');
 		});
 	}
-
 }
