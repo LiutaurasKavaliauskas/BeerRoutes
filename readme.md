@@ -12,7 +12,7 @@ Example coordinates: 51.355468, 11.100790
 - Run `composer install`
 - Update your .env file
 - Run `docker-compose up -d` to run docker containers
-- Run `php artisan:migrate` to migrate all tables
+- Run `php artisan migrate` to migrate all tables
 - Run `php artisan db:seed` to populate database with data (this may take a while)
 
 ## Usage
