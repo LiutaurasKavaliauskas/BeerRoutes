@@ -54,7 +54,7 @@ class FindBeersCommand extends Command
         $long = $this->option('long');
 
         if (!$lat || !$long) {
-            return $this->error('Not enough parameters...');
+            return $this->error('Not enough parameters');
         }
 
         $this->findBreweries($lat, $long, $lat, $long);
